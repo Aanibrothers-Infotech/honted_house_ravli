@@ -209,4 +209,4 @@ new GiftAds(StartSecondActivity.this).showGiftAds();
 
 ## Support
 
-For support, email ravinasukhadiya@aanibrothers.in
+For support, email sanjayhadiya@aanibrothers.in
