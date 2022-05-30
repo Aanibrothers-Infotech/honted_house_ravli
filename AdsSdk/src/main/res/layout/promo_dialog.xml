@@ -23,6 +23,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layoutHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAdColor"
@@ -31,6 +32,7 @@
                 android:paddingVertical="@dimen/_5sdp">
 
                 <TextView
+                    android:id="@+id/txtAd"
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="-25dp"
@@ -51,7 +53,7 @@
                     android:fontFamily="@font/appfont_bold"
                     android:gravity="center"
                     android:text="Title"
-                    android:textColor="@color/colorAdCard"
+                    android:textColor="@color/colorButtonText"
                     android:textSize="@dimen/_15sdp"
                     android:textStyle="bold" />
 
@@ -62,7 +64,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="@dimen/_5sdp"
                     android:padding="8dp"
-                    android:src="@drawable/icon_cancel" />
+                    android:src="@drawable/icon_cancel"
+                    app:tint="@color/colorButtonText" />
 
 
             </LinearLayout>
@@ -113,7 +116,7 @@
                 android:padding="10dp"
                 android:text="Install"
                 android:textAllCaps="true"
-                android:textColor="@color/colorAdWhite"
+                android:textColor="@color/colorButtonText"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 

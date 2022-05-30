@@ -81,11 +81,12 @@ public class MainActivity extends BaseAdsActivity implements View.OnClickListene
                 });
                 break;
             case R.id.btnRate:
-//                 APIManager.getInstance(this).showRatingDialog((feedBack,rate) -> {
-//                     Log.e("TAG", "onClick: Back "+ feedBack+"  "+rate);
-//                 });
+                 APIManager.getInstance(this).showRatingDialog((feedBack,rate) -> {
+                     Log.e("TAG", "onClick: Back "+ feedBack+"  "+rate);
 
-                new GiftAds(this).showGiftAds();
+                     APIManager.getInstance(MainActivity.this).showExitDialog();
+                 });
+
                 break;
         }
     }

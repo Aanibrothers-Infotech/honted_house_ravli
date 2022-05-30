@@ -6,7 +6,8 @@
         <item name="colorPrimary">#34353C</item>
         <item name="colorPrimaryDark">#34353C</item>
         <item name="colorAccent">#34353C</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">#34353C</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/colorAdWhite</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
     <style name="Theme_AppOpen_Dialog">
@@ -20,6 +21,5 @@
         <item name="android:minHeight">30dp</item>
     </style>
 
-    <style name="blinkt.dialog" parent="android:Theme.DeviceDefault.Light.Dialog" />
 
 </resources>

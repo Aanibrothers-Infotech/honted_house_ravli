@@ -7,9 +7,12 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,6 +25,7 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -331,6 +335,24 @@ public class APIManager {
         }
     }
 
+    public String getButtonColor() {
+        if (!setResponseRoot())
+            return "#2196F3";
+        if (responseRoot.getAPPSETTINGS().getNativeButtonColor() == null)
+            return "#2196F3";
+        return responseRoot.getAPPSETTINGS().getNativeButtonColor();
+    }
+
+
+    public String getButtonTextColor() {
+        if (!setResponseRoot())
+            return "#FFFFFF";
+        if (responseRoot.getAPPSETTINGS().getNativeButtonTextColor() == null)
+            return "#FFFFFF";
+        return responseRoot.getAPPSETTINGS().getNativeButtonTextColor();
+    }
+
+
     public JsonElement getExtraData() {
         if (!setResponseRoot())
             return null;
@@ -389,6 +411,7 @@ public class APIManager {
             if (APIManager.isLog)
                 Log.e(TAG, "init:getFirstTimeAd " + AD_VISIBLE);
         }
+
 
         String app_howShowAdInterstitial = responseRoot.getAPPSETTINGS().getAppHowShowAdInterstitial();
 
@@ -809,8 +832,12 @@ public class APIManager {
             dialog.setContentView(view);
             dialog.setCancelable(false);
             Window window = dialog.getWindow();
+            ProgressBar progressBar = view.findViewById(R.id.progress_circular);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                progressBar.setIndeterminateTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            }
             window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             if (showCustom || mInterstitialAd == null) {
                 if (sequenceQureka) {
                     CustomiseinterActivity.H(activity, () -> {
@@ -1500,6 +1527,19 @@ public class APIManager {
             ImageView imageView2 = inflate2.findViewById(R.id.icon);
             TextView textView = (TextView) inflate2.findViewById(R.id.primary);
             TextView textView2 = (TextView) inflate2.findViewById(R.id.secondary);
+            TextView cta = (TextView) inflate2.findViewById(R.id.cta);
+            TextView txtAd = (TextView) inflate2.findViewById(R.id.txtAd);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cta.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+                txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            } else {
+                cta.setBackgroundColor(Color.parseColor(getButtonColor()));
+                txtAd.setBackgroundColor(Color.parseColor(getButtonColor()));
+            }
+            cta.setTextColor(Color.parseColor(getButtonTextColor()));
+            txtAd.setTextColor(Color.parseColor(getButtonTextColor()));
+
 
             Glide
                     .with(activity)
@@ -1557,7 +1597,7 @@ public class APIManager {
 
         final AdLoader adLoader = new AdLoader.Builder(activity, admobB)
                 .forNativeAd(nativeAd -> {
-                    new Inflate_ADS(activity).showSmall(nativeAd, banner_container);
+                    new Inflate_ADS(activity).showSmall(nativeAd, getButtonColor(),getButtonTextColor(), banner_container);
                     if (interCallback != null) {
                         interCallback.onClose(AdvertisementState.NATIVE_BANNER_AD_SHOW);
                     }
@@ -1599,7 +1639,18 @@ public class APIManager {
 
             TextView txt_rate = (TextView) inflate2.findViewById(R.id.txt_rate);
             TextView txt_download = (TextView) inflate2.findViewById(R.id.txt_download);
+            TextView cta = (TextView) inflate2.findViewById(R.id.cta);
+            TextView txtAd = (TextView) inflate2.findViewById(R.id.txtAd);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cta.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+                txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            } else {
+                cta.setBackgroundColor(Color.parseColor(getButtonColor()));
+                txtAd.setBackgroundColor(Color.parseColor(getButtonColor()));
+            }
+            cta.setTextColor(Color.parseColor(getButtonTextColor()));
+            txtAd.setTextColor(Color.parseColor(getButtonTextColor()));
 
             Glide
                     .with(activity)
@@ -1665,7 +1716,18 @@ public class APIManager {
 
             TextView txt_rate = (TextView) inflate2.findViewById(R.id.txt_rate);
             TextView txt_download = (TextView) inflate2.findViewById(R.id.txt_download);
+            TextView cta = (TextView) inflate2.findViewById(R.id.cta);
+            TextView txtAd = (TextView) inflate2.findViewById(R.id.txtAd);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cta.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+                txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            } else {
+                cta.setBackgroundColor(Color.parseColor(getButtonColor()));
+                txtAd.setBackgroundColor(Color.parseColor(getButtonColor()));
+            }
+            cta.setTextColor(Color.parseColor(getButtonTextColor()));
+            txtAd.setTextColor(Color.parseColor(getButtonTextColor()));
 
             Glide
                     .with(activity)
@@ -1821,9 +1883,9 @@ public class APIManager {
         final AdLoader adLoader = new AdLoader.Builder(activity, id)
                 .forNativeAd(nativeAd -> {
                     if (!small)
-                        new Inflate_ADS(activity).inflate_NATIV_ADMOB(nativeAd, nativeAdContainer);
+                        new Inflate_ADS(activity).inflate_NATIV_ADMOB(nativeAd, getButtonColor(), getButtonTextColor(), nativeAdContainer);
                     else
-                        new Inflate_ADS(activity).inflate_NATIV_ADMOB_SMALL(nativeAd, nativeAdContainer);
+                        new Inflate_ADS(activity).inflate_NATIV_ADMOB_SMALL(nativeAd, getButtonColor(), getButtonTextColor(), nativeAdContainer);
                     if (nativeCallback != null) {
                         nativeCallback.onLoad(false);
                         nativeCallback.onState(AdvertisementState.NATIVE_AD_SHOW);
@@ -1875,6 +1937,19 @@ public class APIManager {
             TextView textView2 = (TextView) inflate.findViewById(R.id.body);
             TextView txt_rate = (TextView) inflate.findViewById(R.id.txt_rate);
             TextView txt_download = (TextView) inflate.findViewById(R.id.txt_download);
+            TextView cta = (TextView) inflate.findViewById(R.id.cta);
+            TextView txtAd = (TextView) inflate.findViewById(R.id.txtAd);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cta.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+                txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            } else {
+                cta.setBackgroundColor(Color.parseColor(getButtonColor()));
+                txtAd.setBackgroundColor(Color.parseColor(getButtonColor()));
+            }
+            cta.setTextColor(Color.parseColor(getButtonTextColor()));
+            txtAd.setTextColor(Color.parseColor(getButtonTextColor()));
+
 
             textView.setText(appModal.getApp_name());
             textView2.setText(appModal.getApp_shortDecription());
@@ -2179,6 +2254,18 @@ public class APIManager {
         RelativeLayout adContainerBack = bottomSheetDialog.findViewById(R.id.adContainerBack);
         TextView update = bottomSheetDialog.findViewById(R.id.update);
         TextView later = bottomSheetDialog.findViewById(R.id.later);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            update.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            later.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+        } else {
+            update.setBackgroundColor(Color.parseColor(getButtonColor()));
+            later.setBackgroundColor(Color.parseColor(getButtonColor()));
+        }
+
+        update.setTextColor(Color.parseColor(getButtonTextColor()));
+        later.setTextColor(Color.parseColor(getButtonTextColor()));
+
         showSmallNative(adContainerBack);
         bottomSheetDialog.show();
         later.setOnClickListener(view -> bottomSheetDialog.dismiss());
@@ -2244,12 +2331,28 @@ public class APIManager {
         View inflate = LayoutInflater.from(dialog.getContext()).inflate(R.layout.promo_dialog, null, false);
         dialog.setContentView(inflate);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout layoutHeader = (LinearLayout) inflate.findViewById(R.id.layoutHeader);
         ImageView idClose = (ImageView) inflate.findViewById(R.id.id_close);
         ImageView idLogo = (ImageView) inflate.findViewById(R.id.id_logo);
         TextView idTitle = (TextView) inflate.findViewById(R.id.id_title);
+        TextView txtAd = (TextView) inflate.findViewById(R.id.txtAd);
         TextView idDownload = (TextView) inflate.findViewById(R.id.id_download);
         StyledPlayerView playerView = (StyledPlayerView) inflate.findViewById(R.id.playerView);
         ShimmerView ivShimmerView = (ShimmerView) inflate.findViewById(R.id.ivShimmerView);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            idDownload.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            layoutHeader.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonColor())));
+            txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(getButtonTextColor())));
+        } else {
+            idDownload.setBackgroundColor(Color.parseColor(getButtonColor()));
+            layoutHeader.setBackgroundColor(Color.parseColor(getButtonColor()));
+            txtAd.setBackgroundColor(Color.parseColor(getButtonTextColor()));
+        }
+        idDownload.setTextColor(Color.parseColor(getButtonTextColor()));
+        txtAd.setTextColor(Color.parseColor(getButtonColor()));
+        idClose.setColorFilter(Color.parseColor(getButtonTextColor()));
+
 
         idTitle.setText(appItemPromo.getAdTitle());
         Log.e(TAG, "showPromoAdDialog: " + appItemPromo.getAdImage());

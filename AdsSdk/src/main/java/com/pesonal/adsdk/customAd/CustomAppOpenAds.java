@@ -8,8 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -104,6 +107,13 @@ public class CustomAppOpenAds extends Dialog  {
                 txt_context = (TextView) findViewById(R.id.txt_context);
                 btn_call_to_action = findViewById(R.id.btn_call_to_action);
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    btn_call_to_action.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(APIManager.getInstance(mContext).getButtonColor())));
+                } else {
+                    btn_call_to_action.setBackgroundColor(Color.parseColor(APIManager.getInstance(mContext).getButtonColor()));
+                }
+                btn_call_to_action.setTextColor(Color.parseColor(APIManager.getInstance(mContext).getButtonTextColor()));
+
 
                 mysharedpreferences = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_PRIVATE);
 
@@ -185,6 +195,12 @@ public class CustomAppOpenAds extends Dialog  {
                 btn_call_to_action = findViewById(R.id.btn_call_to_action);
 
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    btn_call_to_action.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(APIManager.getInstance(mContext).getButtonColor())));
+                } else {
+                    btn_call_to_action.setBackgroundColor(Color.parseColor(APIManager.getInstance(mContext).getButtonColor()));
+                }
+                btn_call_to_action.setTextColor(Color.parseColor(APIManager.getInstance(mContext).getButtonTextColor()));
 
                 txt_myapp_name.setText(new TinyDB(mContext).getString("app_name"));
                 if(!new TinyDB(mContext).getString("app_logo").isEmpty())

@@ -16,9 +16,13 @@ public class SplashActivity extends BaseAdsActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Log.e("TAG", "onCreate: "+"firstSplash" );
         initializeSplash(SplashActivity.this, new SplashListner() {
             @Override
             public void onSuccess() {
+
+                Log.e("TAG", "onCreate: "+"secondSplash" );
+
                 APIManager.getInstance(SplashActivity.this).showSplashAD(SplashActivity.this, (state) -> {
                     Log.e("SplashActivity", "state: " + state);
                     if (APIManager.getInstance(SplashActivity.this).getScreenStatus()) {

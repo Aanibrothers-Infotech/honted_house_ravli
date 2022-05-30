@@ -25,7 +25,7 @@
             android:background="@drawable/bg_solid"
             android:gravity="center"
             android:text="@string/ad"
-            android:textColor="@color/colorAdWhite"
+            android:textColor="@color/colorButtonText"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -161,10 +161,10 @@
         android:background="@drawable/bg_solid"
         android:gravity="center"
         android:minHeight="45dp"
-        android:textStyle="bold"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:text="Install"
-        android:textColor="@color/colorAdWhite"
-        android:textSize="20dp" />
+        android:textColor="@color/colorButtonText"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 </RelativeLayout>

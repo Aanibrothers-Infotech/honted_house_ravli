@@ -1,8 +1,10 @@
 package com.pesonal.adsdk.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -27,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.pesonal.adsdk.R;
+import com.pesonal.adsdk.remote.APIManager;
 
 
 public class RatingDialog extends AppCompatDialog implements RatingBar.OnRatingBarChangeListener, View.OnClickListener {
@@ -36,7 +39,7 @@ public class RatingDialog extends AppCompatDialog implements RatingBar.OnRatingB
     private String MyPrefs = "RatingDialog";
     private SharedPreferences sharedpreferences;
 
-    private Context context;
+    private Activity context;
     private Builder builder;
     private TextView tvTitle, tvNegative, tvPositive, tvFeedback, tvSubmit, tvCancel;
     private RatingBar ratingBar;
@@ -48,7 +51,7 @@ public class RatingDialog extends AppCompatDialog implements RatingBar.OnRatingB
     private int session;
     private boolean thresholdPassed = true;
 
-    public RatingDialog(Context context, Builder builder) {
+    public RatingDialog(Activity context, Builder builder) {
         super(context);
         this.context = context;
         this.builder = builder;
@@ -92,11 +95,11 @@ public class RatingDialog extends AppCompatDialog implements RatingBar.OnRatingB
         etFeedback.setHint(builder.feedbackFormHint);
 
         tvTitle.setTextColor(builder.titleTextColor != 0 ? ContextCompat.getColor(context, builder.titleTextColor) : ContextCompat.getColor(context, R.color.colorAdBlack));
-        tvPositive.setTextColor(builder.positiveTextColor != 0 ? ContextCompat.getColor(context, builder.positiveTextColor) : ContextCompat.getColor(context, R.color.colorAdColor));
+        tvPositive.setTextColor(builder.positiveTextColor != 0 ? ContextCompat.getColor(context, builder.positiveTextColor) : Color.parseColor(APIManager.getInstance(context).getButtonColor()));
         tvNegative.setTextColor(builder.negativeTextColor != 0 ? ContextCompat.getColor(context, builder.negativeTextColor) : ContextCompat.getColor(context, R.color.colorAdGrey));
 
         tvFeedback.setTextColor(builder.titleTextColor != 0 ? ContextCompat.getColor(context, builder.titleTextColor) : ContextCompat.getColor(context, R.color.colorAdBlack));
-        tvSubmit.setTextColor(builder.positiveTextColor != 0 ? ContextCompat.getColor(context, builder.positiveTextColor) : ContextCompat.getColor(context, R.color.colorAdColor));
+        tvSubmit.setTextColor(builder.positiveTextColor != 0 ? ContextCompat.getColor(context, builder.positiveTextColor) : Color.parseColor(APIManager.getInstance(context).getButtonColor()));
         tvCancel.setTextColor(builder.negativeTextColor != 0 ? ContextCompat.getColor(context, builder.negativeTextColor) : ContextCompat.getColor(context, R.color.colorAdGrey));
 
         if (builder.feedBackTextColor != 0) {
@@ -329,7 +332,7 @@ public class RatingDialog extends AppCompatDialog implements RatingBar.OnRatingB
 
     public static class Builder {
 
-        private final Context context;
+        private final Activity context;
         private String title, positiveText, negativeText, playstoreUrl;
         private String formTitle, submitText, cancelText, feedbackFormHint;
         private int positiveTextColor, negativeTextColor, titleTextColor, ratingBarColor, ratingBarBackgroundColor, feedBackTextColor;
@@ -364,7 +367,7 @@ public class RatingDialog extends AppCompatDialog implements RatingBar.OnRatingB
             void onClose(int rate);
         }
 
-        public Builder(Context context) {
+        public Builder(Activity context) {
             this.context = context;
             // Set default PlayStore URL
             this.playstoreUrl = "market://details?id=" + context.getPackageName();

@@ -163,8 +163,9 @@
                             android:background="@drawable/bg_solid"
                             android:gravity="center"
                             android:padding="13dp"
+                            android:text="INSTALL"
                             android:textAllCaps="true"
-                            android:textColor="@color/colorAdWhite"
+                            android:textColor="@color/colorButtonText"
                             android:textSize="@dimen/_14sdp"
                             android:textStyle="bold" />
                     </LinearLayout>

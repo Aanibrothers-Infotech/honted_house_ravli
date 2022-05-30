@@ -6,6 +6,7 @@
     <color name="colorAdGrey">#626262</color>
     <color name="colorAdColor">#2196F3</color>
     <color name="colorAdCard">#FFFFFF</color>
+    <color name="colorButtonText">#FFFFFF</color>
 
 
     <color name="colorVpnDeActive">#AFAFAF</color>

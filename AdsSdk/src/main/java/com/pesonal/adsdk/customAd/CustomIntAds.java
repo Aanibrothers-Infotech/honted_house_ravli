@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,6 +42,7 @@ public class CustomIntAds extends Dialog {
     private TextView txt_rate;
     private TextView txt_download;
     AdvertiseList advertiseList;
+    private TextView btn_call_to_action;
 
 
     public CustomIntAds(@NonNull Activity context, AdvertiseList customAdModel) {
@@ -73,6 +77,14 @@ public class CustomIntAds extends Dialog {
 
         setContentView(R.layout.cust_int);
 
+        btn_call_to_action = findViewById(R.id.native_ad_call_to_action);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btn_call_to_action.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(APIManager.getInstance(mContext).getButtonColor())));
+        } else {
+            btn_call_to_action.setBackgroundColor(Color.parseColor(APIManager.getInstance(mContext).getButtonColor()));
+        }
+        btn_call_to_action.setTextColor(Color.parseColor(APIManager.getInstance(mContext).getButtonTextColor()));
+
         WindowManager.LayoutParams attributes = getWindow().getAttributes();
         attributes.width = screen_size_get(getContext()).x;
         attributes.height = screen_size_get(getContext()).y;
@@ -88,6 +100,9 @@ public class CustomIntAds extends Dialog {
                 txt_rate = (TextView) findViewById(R.id.txt_rate);
                 txt_download = (TextView) findViewById(R.id.txt_download);
                 int_bg = findViewById(R.id.int_bg);
+
+
+
                 Glide
                         .with(mContext)
                         .load(advertiseList.getApp_logo())

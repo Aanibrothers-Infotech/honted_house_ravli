@@ -1,8 +1,12 @@
 package com.pesonal.adsdk.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,10 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pesonal.adsdk.R;
+import com.pesonal.adsdk.remote.APIManager;
 
 
 public class PrivacyDialog {
-    public static void show(Context context,String[] strings) {
+    public static void show(Activity context, String[] strings) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(1);
         dialog.getWindow().addFlags(2);
@@ -33,6 +38,15 @@ public class PrivacyDialog {
                 dialog.dismiss();
             }
         });
+
+        APIManager instance = APIManager.getInstance(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ((RelativeLayout) dialog.findViewById(R.id.acceptButton)).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+        } else {
+            ((RelativeLayout) dialog.findViewById(R.id.acceptButton)).setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+        }
+        ((TextView) dialog.findViewById(R.id.txtBtn)).setTextColor(Color.parseColor(instance.getButtonTextColor()));
+
         dialog.show();
     }
 

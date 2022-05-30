@@ -72,6 +72,7 @@
                             android:background="@drawable/bg_solid">
 
                             <TextView
+                                android:id="@+id/txtBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="30dp"
@@ -79,7 +80,7 @@
                                 android:layout_marginRight="30dp"
                                 android:layout_marginBottom="10dp"
                                 android:text="Accept"
-                                android:textColor="@color/colorAdWhite"
+                                android:textColor="@color/colorButtonText"
                                 android:textSize="18sp" />
                         </RelativeLayout>
                     </RelativeLayout>

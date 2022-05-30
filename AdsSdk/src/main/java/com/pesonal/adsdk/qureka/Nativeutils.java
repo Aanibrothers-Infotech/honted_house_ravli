@@ -2,7 +2,10 @@ package com.pesonal.adsdk.qureka;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.pesonal.adsdk.R;
+import com.pesonal.adsdk.remote.APIManager;
 import com.pesonal.adsdk.remote.AdvertisementState;
 import com.pesonal.adsdk.remote.InterCallback;
 import com.pesonal.adsdk.remote.NativeCallback;
@@ -32,14 +36,11 @@ public class Nativeutils {
             nativeCallback.onState(AdvertisementState.QUREKA_NATIVE_AD_SHOW);
         }
         Adsresponse e8 = Glob.dataset(context);
-        LayoutInflater from = LayoutInflater.from(context);
-        int i8 = R.layout.qurea_medium_native;
 
         View inflate;
         layoutInflater = LayoutInflater.from(context);
-        inflate = from.inflate(R.layout.qurea_medium_native, viewGroup, false);
 
-        inflate = layoutInflater.inflate(i8, viewGroup, false);
+        inflate = layoutInflater.inflate(R.layout.qurea_medium_native, viewGroup, false);
         ImageView imageView3 = (ImageView) inflate.findViewById(R.id.iv_banner);
         ImageView imageView22 = (ImageView) inflate.findViewById(R.id.iv_logo);
         TextView textView6 = (TextView) inflate.findViewById(R.id.tv_appname);
@@ -49,6 +50,19 @@ public class Nativeutils {
         TextView textView32 = (TextView) inflate.findViewById(R.id.tv_download);
         TextView textView42 = (TextView) inflate.findViewById(R.id.tv_desc);
         Button button2 = (Button) inflate.findViewById(R.id.btn_install);
+
+        APIManager instance = APIManager.getInstance(context);
+        TextView txtAd = (TextView) inflate.findViewById(R.id.txtAd);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            button2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+            txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+        } else {
+            button2.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+            txtAd.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+        }
+        button2.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+        txtAd.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+
         View view2 = inflate;
         Glide.with(context).load("file:///android_asset/" + e8.f18656d).into(imageView3);
         Glide.with(context).load("file:///android_asset/" + e8.f18655c).into(imageView22);
@@ -118,6 +132,19 @@ public class Nativeutils {
         TextView textView32 = (TextView) inflate.findViewById(R.id.tv_download);
         TextView textView42 = (TextView) inflate.findViewById(R.id.tv_desc);
         Button button2 = (Button) inflate.findViewById(R.id.btn_install);
+        APIManager instance = APIManager.getInstance(context);
+        TextView txtAd = (TextView) inflate.findViewById(R.id.txtAd);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            button2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+            txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+        } else {
+            button2.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+            txtAd.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+        }
+        button2.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+        txtAd.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+
+
         View view2 = inflate;
         Glide.with(context).load("file:///android_asset/" + e8.f18656d).into(imageView3);
         Glide.with(context).load("file:///android_asset/" + e8.f18655c).into(imageView22);
@@ -192,6 +219,18 @@ public class Nativeutils {
         TextView textView32 = (TextView) inflate.findViewById(R.id.tv_download);
         TextView textView42 = (TextView) inflate.findViewById(R.id.tv_desc);
         Button button2 = (Button) inflate.findViewById(R.id.btn_install);
+        APIManager instance = APIManager.getInstance(context);
+        TextView txtAd = (TextView) inflate.findViewById(R.id.txtAd);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            button2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+            txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+        } else {
+            button2.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+            txtAd.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+        }
+        button2.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+        txtAd.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+
         View view2 = inflate;
         Glide.with(context).load("file:///android_asset/" + e8.f18656d).into(imageView3);
         Glide.with(context).load("file:///android_asset/" + e8.f18655c).into(imageView22);

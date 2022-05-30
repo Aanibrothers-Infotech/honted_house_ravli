@@ -206,7 +206,7 @@
                             android:text="Install"
                             android:textStyle="bold"
                             android:gravity="center"
-                            android:textColor="@color/colorAdWhite"
+                            android:textColor="@color/colorButtonText"
                             android:textSize="20dp" />
                     </LinearLayout>
 

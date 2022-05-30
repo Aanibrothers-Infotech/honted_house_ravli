@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/txtAd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
@@ -25,7 +26,7 @@
             android:paddingRight="3dp"
             android:paddingBottom="2dp"
             android:text="@string/ad"
-            android:textColor="@color/colorAdWhite"
+            android:textColor="@color/colorButtonText"
             android:textSize="7dp" />
 
         <ImageView

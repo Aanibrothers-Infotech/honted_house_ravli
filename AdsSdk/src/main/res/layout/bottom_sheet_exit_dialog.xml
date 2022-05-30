@@ -65,7 +65,7 @@
                         android:fontFamily="@font/appfont_bold"
                         android:paddingRight="20dp"
                         android:text="Yes"
-                        android:textColor="@color/colorAdWhite"
+                        android:textColor="@color/colorButtonText"
                         android:textSize="17dp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -96,7 +96,7 @@
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:text=" No "
-                        android:textColor="@color/colorAdWhite"
+                        android:textColor="@color/colorButtonText"
                         android:textSize="17dp"
                         android:textStyle="bold" />
                 </LinearLayout>

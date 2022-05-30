@@ -1,6 +1,9 @@
 package com.pesonal.adsdk.utils;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +27,7 @@ public class Inflate_ADS {
         this.activity = context;
     }
 
-    public void inflate_NATIV_ADMOB(com.google.android.gms.ads.nativead.NativeAd nativeAd, ViewGroup cardView) {
+    public void inflate_NATIV_ADMOB(NativeAd nativeAd, String color, String buttonTextColor, ViewGroup cardView) {
 
         cardView.setVisibility(View.VISIBLE);
         LayoutInflater inflater = LayoutInflater.from(activity);
@@ -33,12 +36,12 @@ public class Inflate_ADS {
         cardView.removeAllViews();
         cardView.addView(view);
 
-        populateAppInstallAdViewMediasmall(nativeAd, (NativeAdView) view.findViewById(R.id.unified));
+        populateAppInstallAdViewMediasmall(nativeAd, color,buttonTextColor,(NativeAdView) view.findViewById(R.id.unified));
 
     }
 
 
-    public void inflate_NATIV_ADMOB_SMALL(com.google.android.gms.ads.nativead.NativeAd nativeAd, ViewGroup cardView) {
+    public void inflate_NATIV_ADMOB_SMALL(NativeAd nativeAd, String buttonColor, String textColor,ViewGroup cardView) {
 
         cardView.setVisibility(View.VISIBLE);
         LayoutInflater inflater = LayoutInflater.from(activity);
@@ -47,11 +50,11 @@ public class Inflate_ADS {
         cardView.removeAllViews();
         cardView.addView(view);
 
-        populateAppInstallAdViewMediaS(nativeAd, (NativeAdView) view.findViewById(R.id.unified));
+        populateAppInstallAdViewMediaS(nativeAd,buttonColor,textColor ,(NativeAdView) view.findViewById(R.id.unified));
 
     }
 
-    public void showSmall(com.google.android.gms.ads.nativead.NativeAd nativeAd, ViewGroup cardView) {
+    public void showSmall(NativeAd nativeAd, String buttonColor, String buttonTextColor, ViewGroup cardView) {
         cardView.setVisibility(View.VISIBLE);
         LayoutInflater inflater = LayoutInflater.from(activity);
         View view = (View) inflater
@@ -59,13 +62,22 @@ public class Inflate_ADS {
         cardView.removeAllViews();
         cardView.addView(view);
 
-        populateAppInstallAdViewMedia(nativeAd, (NativeAdView) view.findViewById(R.id.unified));
+        populateAppInstallAdViewMedia(nativeAd, buttonColor,buttonTextColor,(NativeAdView) view.findViewById(R.id.unified));
     }
 
-    public static void populateAppInstallAdViewMediaS(NativeAd unifiedNativeAd, NativeAdView unifiedNativeAdView) {
+    public static void populateAppInstallAdViewMediaS(NativeAd unifiedNativeAd, String buttonColor, String textColor, NativeAdView unifiedNativeAdView) {
         unifiedNativeAdView.setHeadlineView(unifiedNativeAdView.findViewById(R.id.ad_headline));
         unifiedNativeAdView.setBodyView(unifiedNativeAdView.findViewById(R.id.ad_body));
         unifiedNativeAdView.setCallToActionView(unifiedNativeAdView.findViewById(R.id.ad_call_to_action));
+
+        TextView viewById = unifiedNativeAdView.findViewById(R.id.ad_call_to_action);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewById.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(buttonColor)));
+        }else {
+            viewById.setBackgroundColor(Color.parseColor(buttonColor));
+        }
+        viewById.setTextColor(Color.parseColor(textColor));
+
         unifiedNativeAdView.setIconView(unifiedNativeAdView.findViewById(R.id.ad_app_icon));
         unifiedNativeAdView.setPriceView(unifiedNativeAdView.findViewById(R.id.ad_price));
         unifiedNativeAdView.setStarRatingView(unifiedNativeAdView.findViewById(R.id.ad_stars));
@@ -110,11 +122,19 @@ public class Inflate_ADS {
         }
     }
 
-    public static void populateAppInstallAdViewMediasmall(NativeAd unifiedNativeAd, NativeAdView unifiedNativeAdView) {
+    public static void populateAppInstallAdViewMediasmall(NativeAd unifiedNativeAd, String buttonColor,String textColor, NativeAdView unifiedNativeAdView) {
         unifiedNativeAdView.setMediaView((MediaView) unifiedNativeAdView.findViewById(R.id.ad_media));
         unifiedNativeAdView.setHeadlineView(unifiedNativeAdView.findViewById(R.id.ad_headline));
         unifiedNativeAdView.setBodyView(unifiedNativeAdView.findViewById(R.id.ad_body));
         unifiedNativeAdView.setCallToActionView(unifiedNativeAdView.findViewById(R.id.ad_call_to_action));
+        TextView viewById = unifiedNativeAdView.findViewById(R.id.ad_call_to_action);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewById.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(buttonColor)));
+        }else {
+            viewById.setBackgroundColor(Color.parseColor(buttonColor));
+        }
+        viewById.setTextColor(Color.parseColor(textColor));
+
         unifiedNativeAdView.setIconView(unifiedNativeAdView.findViewById(R.id.ad_app_icon));
         ((TextView) unifiedNativeAdView.getHeadlineView()).setText(unifiedNativeAd.getHeadline());
         unifiedNativeAdView.getMediaView().setMediaContent(unifiedNativeAd.getMediaContent());
@@ -145,11 +165,19 @@ public class Inflate_ADS {
         }
     }
 
-    public static void populateAppInstallAdViewMedia(NativeAd unifiedNativeAd, NativeAdView unifiedNativeAdView) {
+    public static void populateAppInstallAdViewMedia(NativeAd unifiedNativeAd, String buttonColor, String buttonTextColor, NativeAdView unifiedNativeAdView) {
         unifiedNativeAdView.setHeadlineView(unifiedNativeAdView.findViewById(R.id.ad_headline));
         unifiedNativeAdView.setBodyView(unifiedNativeAdView.findViewById(R.id.ad_body));
         unifiedNativeAdView.setIconView(unifiedNativeAdView.findViewById(R.id.ad_app_icon));
         unifiedNativeAdView.setCallToActionView(unifiedNativeAdView.findViewById(R.id.ad_call_to_action));
+        TextView viewById = unifiedNativeAdView.findViewById(R.id.ad_call_to_action);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewById.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(buttonColor)));
+        }else {
+            viewById.setBackgroundColor(Color.parseColor(buttonColor));
+        }
+        viewById.setTextColor(Color.parseColor(buttonTextColor));
+
         ((TextView) unifiedNativeAdView.getHeadlineView()).setText(unifiedNativeAd.getHeadline());
         if (unifiedNativeAd.getBody() == null) {
             unifiedNativeAdView.getBodyView().setVisibility(View.INVISIBLE);

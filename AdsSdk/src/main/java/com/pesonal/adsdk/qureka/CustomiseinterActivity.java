@@ -3,7 +3,10 @@ package com.pesonal.adsdk.qureka;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,6 +34,7 @@ public class CustomiseinterActivity extends AppCompatActivity {
     public static OnClick f2125q;
     public LinearLayout A;
     public LinearLayout B;
+    public LinearLayout layoutHeader;
     public String C;
     public ImageView f2127s;
     public TextView f2128t;
@@ -38,6 +42,7 @@ public class CustomiseinterActivity extends AppCompatActivity {
     public TextView f2130v;
     public TextView f2131w;
     public TextView f2132x;
+    public TextView txtAd;
     public RatingBar f2133y;
     public LinearLayout f2134z;
     public ImageView native_ad_icon;
@@ -80,6 +85,19 @@ public class CustomiseinterActivity extends AppCompatActivity {
                 B = (LinearLayout) findViewById(R.id.adPersonalLlPlayStore);
                 TextView textView2 = (TextView) findViewById(R.id.querkaText);
                 f2133y = (RatingBar) findViewById(R.id.ad_stars);
+                layoutHeader = (LinearLayout) findViewById(R.id.layoutHeader);
+                txtAd = (TextView) findViewById(R.id.txtAd);
+
+                APIManager instance = APIManager.getInstance(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    f2132x.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+                    layoutHeader.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+                } else {
+                    layoutHeader.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+                    f2132x.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+                }
+                f2132x.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+                txtAd.setTextColor(Color.parseColor(instance.getButtonTextColor()));
 
                 Glide.with(this).load("file:///android_asset/"+f2124p.f18655c).into(native_ad_icon);
                 Glide.with(this).load("file:///android_asset/"+f2124p.f18656d).into(f2127s);

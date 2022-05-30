@@ -13,24 +13,18 @@
         android:orientation="vertical"
         android:padding="3dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="22dp"
-            android:layout_height="15dp"
-            android:layout_marginTop="1.5dp"
+        <TextView
+            android:id="@+id/txtAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            app:cardBackgroundColor="@color/colorAdColor">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/ad"
-                android:textColor="@color/colorAdWhite"
-                android:textSize="11dp"
-                android:textStyle="bold" />
-
-
-        </androidx.cardview.widget.CardView>
+            android:text="@string/ad"
+            android:paddingHorizontal="@dimen/_4sdp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/bg_solid"
+            android:textColor="@color/colorButtonText"
+            android:textSize="11dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,7 +133,7 @@
             android:lines="1"
             android:gravity="center"
             android:text="Install"
-            android:textColor="@color/colorAdWhite"
+            android:textColor="@color/colorButtonText"
             android:textSize="17dp"
             android:textStyle="bold" />
     </LinearLayout>
