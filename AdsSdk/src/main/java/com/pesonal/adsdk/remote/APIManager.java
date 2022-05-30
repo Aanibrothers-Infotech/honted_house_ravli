@@ -82,7 +82,8 @@ import com.pesonal.adsdk.model.vpnmodel.ResponseVpn;
 import com.pesonal.adsdk.qureka.BannerUtils;
 import com.pesonal.adsdk.qureka.CustomiseinterActivity;
 import com.pesonal.adsdk.qureka.Glob;
-import com.pesonal.adsdk.qureka.Nativeutils;
+import com.pesonal.adsdk.qureka.OnClick;
+import com.pesonal.adsdk.qureka.QurekaNativeutils;
 import com.pesonal.adsdk.utils.Inflate_ADS;
 import com.pesonal.adsdk.utils.getDataListner;
 
@@ -1387,7 +1388,7 @@ public class APIManager {
         } else {
             if (responseRoot.getAPPSETTINGS().getNATIVEBANNER().equalsIgnoreCase("BANNER"))
                 BannerUtils.banner(viewGroup, activity, interCallback);
-            else Nativeutils.banner(viewGroup, activity, interCallback);
+            else QurekaNativeutils.banner(viewGroup, activity, interCallback);
         }
     }
 
@@ -1428,7 +1429,7 @@ public class APIManager {
                 Log.e(TAG, "showBanner:BN  " + adUnitId + "  " + platform);
             turnShowNativeBanner(viewGroup, adUnitId, interCallback);
         } else {
-            Nativeutils.banner(viewGroup, activity, interCallback);
+            QurekaNativeutils.banner(viewGroup, activity, interCallback);
         }
     }
 
@@ -1612,7 +1613,7 @@ public class APIManager {
                             interCallback.onClose(AdvertisementState.NATIVE_BANNER_AD_FAIL);
                         }
                         if (sequenceQureka) {
-                            Nativeutils.banner(banner_container, activity, interCallback);
+                            QurekaNativeutils.banner(banner_container, activity, interCallback);
                         } else
                             showMyCustomNativeBanner(banner_container, interCallback);
 
@@ -1820,7 +1821,7 @@ public class APIManager {
                 Log.e(TAG, "showNative: " + adUnitId + "  " + platform);
             showAdmobNative(nativeAdContainer, false, adUnitId, nativeCallback);
         } else {
-            Nativeutils.mediam(nativeAdContainer, activity, nativeCallback);
+            QurekaNativeutils.mediam(nativeAdContainer, activity, nativeCallback);
         }
     }
 
@@ -1866,7 +1867,7 @@ public class APIManager {
                 Log.e(TAG, "showSmallNative: " + adUnitId + "  " + platform);
             showAdmobNative(nativeAdContainer, true, adUnitId, nativeCallback);
         } else {
-            Nativeutils.small(nativeAdContainer, activity, nativeCallback);
+            QurekaNativeutils.small(nativeAdContainer, activity, nativeCallback);
         }
     }
 
@@ -1903,9 +1904,9 @@ public class APIManager {
 
                         if (sequenceQureka) {
                             if (!small)
-                                Nativeutils.mediam(nativeAdContainer, activity, nativeCallback);
+                                QurekaNativeutils.mediam(nativeAdContainer, activity, nativeCallback);
                             else
-                                Nativeutils.small(nativeAdContainer, activity, nativeCallback);
+                                QurekaNativeutils.small(nativeAdContainer, activity, nativeCallback);
 
                         } else {
                             if (!small)
@@ -2429,6 +2430,54 @@ public class APIManager {
     public static boolean isImageFile(String path) {
         String mimeType = URLConnection.guessContentTypeFromName(path);
         return mimeType != null && mimeType.startsWith("image");
+    }
+
+    public void showNativeQurekaSquare(ViewGroup viewGroup){
+        QurekaNativeutils.squareNative(viewGroup, activity, state -> {});
+    }
+
+    public void showNativeQurekaBig(ViewGroup viewGroup){
+        QurekaNativeutils.mediam(viewGroup, activity, new NativeCallback() {
+            @Override
+            public void onLoad(boolean isFail) {
+
+            }
+
+            @Override
+            public void onState(AdvertisementState state) {
+
+            }
+        });
+    }
+
+    public void showNativeQurekaSmall(ViewGroup viewGroup){
+        QurekaNativeutils.small(viewGroup, activity, new NativeCallback() {
+            @Override
+            public void onLoad(boolean isFail) {
+
+            }
+
+            @Override
+            public void onState(AdvertisementState state) {
+
+            }
+        });
+    }
+
+    public void showNativeQurekaTiny(ViewGroup viewGroup){
+        QurekaNativeutils.banner(viewGroup, activity, state -> {
+
+        });
+    }
+
+    public void showQurekaInter(InterCallback callback){
+        CustomiseinterActivity.H(activity, () -> callback.onClose(AdvertisementState.QUREKA_INTER_AD_CLOSE), Glob.dataset(activity));
+    }
+
+    public void showQurekaBanner(ViewGroup viewGroup){
+        BannerUtils.banner(viewGroup, activity, state -> {
+
+        });
     }
 
 }

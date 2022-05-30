@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.google.gson.JsonElement;
 import com.pesonal.adsdk.BaseAdsActivity;
 import com.pesonal.adsdk.dialog.GiftAds;
+import com.pesonal.adsdk.qureka.QurekaNativeutils;
 import com.pesonal.adsdk.remote.APIManager;
 import com.pesonal.adsdk.remote.AdvertisementState;
 import com.pesonal.adsdk.remote.InterCallback;
@@ -50,12 +51,14 @@ public class MainActivity extends BaseAdsActivity implements View.OnClickListene
                 Log.e("MainActivity", "state showNative: " + state);
             }
         });
-        APIManager.getInstance(MainActivity.this).showBanner(adContainer1, new InterCallback() {
-            @Override
-            public void onClose(AdvertisementState state) {
-                Log.e("MainActivity", "state showBanner: " + state);
-            }
-        });
+
+APIManager.getInstance(this).showNativeQurekaSquare(adContainer1);
+//        APIManager.getInstance(MainActivity.this).showBanner(adContainer1, new InterCallback() {
+//            @Override
+//            public void onClose(AdvertisementState state) {
+//                Log.e("MainActivity", "state showBanner: " + state);
+//            }
+//        });
         APIManager.getInstance(MainActivity.this).showSmallNative(adContainer2, new NativeCallback() {
             @Override
             public void onLoad(boolean isFail) {

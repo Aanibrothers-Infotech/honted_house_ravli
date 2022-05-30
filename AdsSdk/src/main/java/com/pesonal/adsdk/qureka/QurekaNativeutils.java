@@ -25,7 +25,7 @@ import com.pesonal.adsdk.remote.InterCallback;
 import com.pesonal.adsdk.remote.NativeCallback;
 
 
-public class Nativeutils {
+public class QurekaNativeutils {
 
     public static int U = 0;
     private static String str4 = "";
@@ -282,8 +282,41 @@ public class Nativeutils {
         viewGroup.removeAllViews();
         viewGroup.addView(view2);
         U++;
-
-
     }
 
+
+    public static void squareNative(ViewGroup viewGroup, Activity context, InterCallback interCallback) {
+        if (interCallback != null) {
+            interCallback.onClose(AdvertisementState.QUREKA_NATIVE_BANNER_AD_SHOW);
+        }
+        Adsresponse e8 = Glob.dataset(context);
+        LayoutInflater from = LayoutInflater.from(context);
+
+        View inflate = from.inflate(R.layout.qurea_square_ad, viewGroup, false);
+        ImageView imageView22 = (ImageView) inflate.findViewById(R.id.iv_logo);
+        TextView txtAd = (TextView) inflate.findViewById(R.id.txtAd);
+
+        APIManager instance = APIManager.getInstance(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            txtAd.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(instance.getButtonColor())));
+        } else {
+            txtAd.setBackgroundColor(Color.parseColor(instance.getButtonColor()));
+        }
+        txtAd.setTextColor(Color.parseColor(instance.getButtonTextColor()));
+
+        Glide.with(context).load("file:///android_asset/" + e8.f18655c).into(imageView22);
+        imageView22.setOnClickListener(view -> {
+            if (e8.f18654b.contains("http")) {
+                Glob.b(context, e8.f18654b);
+                return;
+            }
+            StringBuilder h8 = Glob.h("market://details?id=");
+            h8.append(e8.f18654b);
+            Glob.b(context, h8.toString());
+            context.startActivity(new Intent("android.intent.action.VIEW", Uri.parse(h8.toString())));
+        });
+        viewGroup.removeAllViews();
+        viewGroup.addView(inflate);
+        U++;
+    }
 }
