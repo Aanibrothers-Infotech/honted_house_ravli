@@ -82,7 +82,6 @@ import com.pesonal.adsdk.model.vpnmodel.ResponseVpn;
 import com.pesonal.adsdk.qureka.BannerUtils;
 import com.pesonal.adsdk.qureka.CustomiseinterActivity;
 import com.pesonal.adsdk.qureka.Glob;
-import com.pesonal.adsdk.qureka.OnClick;
 import com.pesonal.adsdk.qureka.QurekaNativeutils;
 import com.pesonal.adsdk.utils.Inflate_ADS;
 import com.pesonal.adsdk.utils.getDataListner;
@@ -863,12 +862,27 @@ public class APIManager {
                                 mInterstitialAd.show(activity);
                                 if (!activity.isFinishing() && dialog != null && dialog.isShowing())
                                     dialog.dismiss();
+                            } else {
+                                if (!activity.isFinishing() && dialog != null && dialog.isShowing())
+                                    dialog.dismiss();
+                                CustomiseinterActivity.H(activity, () -> {
+                                    loadInter();
+                                    interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
+                                }, Glob.dataset(activity));
                             }
                         }
                     }.start();
                 } else {
-                    mInterstitialAd.show(activity);
                     dialog.dismiss();
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(activity);
+                        dialog.dismiss();
+                    } else {
+                        CustomiseinterActivity.H(activity, () -> {
+                            loadInter();
+                            interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
+                        }, Glob.dataset(activity));
+                    }
                 }
             }
         } else {
@@ -1598,7 +1612,7 @@ public class APIManager {
 
         final AdLoader adLoader = new AdLoader.Builder(activity, admobB)
                 .forNativeAd(nativeAd -> {
-                    new Inflate_ADS(activity).showSmall(nativeAd, getButtonColor(),getButtonTextColor(), banner_container);
+                    new Inflate_ADS(activity).showSmall(nativeAd, getButtonColor(), getButtonTextColor(), banner_container);
                     if (interCallback != null) {
                         interCallback.onClose(AdvertisementState.NATIVE_BANNER_AD_SHOW);
                     }
@@ -2432,11 +2446,12 @@ public class APIManager {
         return mimeType != null && mimeType.startsWith("image");
     }
 
-    public void showNativeQurekaSquare(ViewGroup viewGroup){
-        QurekaNativeutils.squareNative(viewGroup, activity, state -> {});
+    public void showNativeQurekaSquare(ViewGroup viewGroup) {
+        QurekaNativeutils.squareNative(viewGroup, activity, state -> {
+        });
     }
 
-    public void showNativeQurekaBig(ViewGroup viewGroup){
+    public void showNativeQurekaBig(ViewGroup viewGroup) {
         QurekaNativeutils.mediam(viewGroup, activity, new NativeCallback() {
             @Override
             public void onLoad(boolean isFail) {
@@ -2450,7 +2465,7 @@ public class APIManager {
         });
     }
 
-    public void showNativeQurekaSmall(ViewGroup viewGroup){
+    public void showNativeQurekaSmall(ViewGroup viewGroup) {
         QurekaNativeutils.small(viewGroup, activity, new NativeCallback() {
             @Override
             public void onLoad(boolean isFail) {
@@ -2464,17 +2479,17 @@ public class APIManager {
         });
     }
 
-    public void showNativeQurekaTiny(ViewGroup viewGroup){
+    public void showNativeQurekaTiny(ViewGroup viewGroup) {
         QurekaNativeutils.banner(viewGroup, activity, state -> {
 
         });
     }
 
-    public void showQurekaInter(InterCallback callback){
+    public void showQurekaInter(InterCallback callback) {
         CustomiseinterActivity.H(activity, () -> callback.onClose(AdvertisementState.QUREKA_INTER_AD_CLOSE), Glob.dataset(activity));
     }
 
-    public void showQurekaBanner(ViewGroup viewGroup){
+    public void showQurekaBanner(ViewGroup viewGroup) {
         BannerUtils.banner(viewGroup, activity, state -> {
 
         });
