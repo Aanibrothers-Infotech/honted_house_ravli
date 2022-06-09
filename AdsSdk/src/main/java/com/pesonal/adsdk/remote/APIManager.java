@@ -763,7 +763,7 @@ public class APIManager {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 if(APIManager.isLog)
-                    Log.e(TAG, "InterstitialAd onAdLoaded: "+mInterstitialAd );
+                    Log.e(TAG, "InterstitialAd onAdLoaded: "+interstitialAd );
                 showCustom = false;
                 mInterstitialAd = interstitialAd;
                 mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
