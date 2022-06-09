@@ -91,8 +91,8 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks {
                 super.onAdLoaded(appOpenAd);
                 AppOpenManager.this.appOpenAd = appOpenAd;
                 AppOpenManager.this.loadTime = (new Date()).getTime();
-                if (APIManager.isLog)
-                    Log.e("my_log", "onAppOpenAdToLoad: ");
+//                if (APIManager.isLog)
+//                    Log.e("my_log", "onAppOpenAdToLoad: ");
                 listner.onSuccess();
             }
 
@@ -110,8 +110,8 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks {
 
         AdRequest request = getAdRequest();
         String appOpenID = new TinyDB(myApplication).getString("AppOpenID");
-        if (APIManager.isLog)
-            Log.e("TAG", "AppOpenManager:appOpenID " + appOpenID);
+//        if (APIManager.isLog)
+//            Log.e("TAG", "AppOpenManager:appOpenID " + appOpenID);
 
         AppOpenAd.load(myApplication, new TinyDB(myApplication).getString("AppOpenID"), request,
                 AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);

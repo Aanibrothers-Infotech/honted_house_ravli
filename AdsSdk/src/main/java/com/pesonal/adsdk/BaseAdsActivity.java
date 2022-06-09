@@ -96,7 +96,7 @@ public class BaseAdsActivity extends BaseActivity {
         ADSinit(activity, getCurrentVersionCode(), new getDataListner() {
             @Override
             public void onSuccess() {
-                new Handler(Looper.getMainLooper()).postDelayed(listner::onSuccess, 5000);
+                listner.onSuccess();
             }
 
             @Override
@@ -321,15 +321,8 @@ public class BaseAdsActivity extends BaseActivity {
                                 if (status.equals("true")) {
                                     APIManager.getInstance(BaseAdsActivity.this).loadInterstitialAd();
                                     APIManager.getInstance(BaseAdsActivity.this).loadRewardAd();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            myCallback1.onSuccess();
-                                        }
-                                    }, 4000);
-                                } else {
-                                    myCallback1.onSuccess();
                                 }
+                                new Handler().postDelayed(myCallback1::onSuccess, 5000);
                             }
 
                             @Override

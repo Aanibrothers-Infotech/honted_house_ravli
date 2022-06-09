@@ -1,0 +1,23 @@
+
+{
+  "app_name":"Module App (R)",
+  "app_accountName":"Module Account",
+  "app_accountLink":"",
+  "app_packageName":"module.demomodule",
+  "app_logo":"https:\/\/extreamapps.co.in\/AppsManager\/upload\/app\/AppLogo97e70a727cdb21cb18ff984b38b8c590.png",
+  "app_status":"NotPublish",
+  "app_privacyPolicyLink":"",
+  "app_howShowAd":"0",
+  "app_adPlatformSequence":"Admob1,Admob2,Admob3,Qureka",
+  "app_alernateAdShow":"",
+  "app_howShowAdNative":"0",
+  "app_adPlatformSequenceNative":"Admob1,Admob2,Admob3,Qureka",
+  "app_alernateAdShowNative":"",
+  "app_howShowAdBanner":"0",
+  "app_adPlatformSequenceBanner":"Admob1,Admob2,Admob3,Qureka",
+  "app_alernateAdShowBanner":"",
+  "app_mainClickCntSwAd":"0",
+  "app_innerClickCntSwAd":"0"
+}
+
+
