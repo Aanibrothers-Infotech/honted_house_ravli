@@ -321,9 +321,9 @@ public class BaseAdsActivity extends BaseActivity {
                                 if (status.equals("true")) {
                                     APIManager.getInstance(BaseAdsActivity.this).loadInterstitialAd();
                                     APIManager.getInstance(BaseAdsActivity.this).loadRewardAd();
-                                    new Handler().postDelayed(myCallback1::onSuccess, 5000);
+                                    new Handler().postDelayed(myCallback1::onSuccess, 8000);
                                 }else {
-                                    new Handler().postDelayed(myCallback1::onSuccess, 3000);
+                                    new Handler().postDelayed(myCallback1::onSuccess, 5000);
                                 }
                             }
 
