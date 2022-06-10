@@ -405,7 +405,6 @@ public class APIManager {
         new TinyDB(activity).putString("app_name", responseRoot.getAPPSETTINGS().getAppName());
         new TinyDB(activity).putString("app_logo", responseRoot.getAPPSETTINGS().getAppLogo());
         QUREKALINK = responseRoot.getAPPSETTINGS().getQUREKALINK();
-
         if (isFirstAD) {
             AD_VISIBLE = !getFirstTimeAd();
             if (APIManager.isLog)
@@ -744,11 +743,15 @@ public class APIManager {
         return str_ads;
     }
 
-    public void loadInterstitialAd() {
-        requestInterstitial("First");
+    public void loadInterstitialAd(InterLoadCallBack interLoadCallBack) {
+        requestInterstitial("First", interLoadCallBack);
     }
 
-    public void requestInterstitial(String whichOne) {
+    public void loadInterstitialAd() {
+        requestInterstitial("First", null);
+    }
+
+    public void requestInterstitial(String whichOne, InterLoadCallBack interLoadCallBack) {
         if (!setResponseRoot())
             return;
         if (responseRoot.getAPPSETTINGS() == null) {
@@ -762,15 +765,17 @@ public class APIManager {
         InterstitialAd.load(activity, adUnitId, adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                if(APIManager.isLog)
-                    Log.e(TAG, "InterstitialAd onAdLoaded: "+interstitialAd );
+                if (APIManager.isLog)
+                    Log.e(TAG, "InterstitialAd onAdLoaded: " + interstitialAd);
                 showCustom = false;
+                if (interLoadCallBack != null)
+                    interLoadCallBack.onLoad(true);
                 mInterstitialAd = interstitialAd;
                 mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                     @Override
                     public void onAdDismissedFullScreenContent() {
                         mInterstitialAd = null;
-                        requestInterstitial("Next");
+                        requestInterstitial("Next", null);
                         interstitialCallBack(AdvertisementState.INTER_AD_CLOSE);
                     }
 
@@ -778,7 +783,7 @@ public class APIManager {
                     public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
                         // Called when fullscreen content failed to show.
                         mInterstitialAd = null;
-                        requestInterstitial("Next");
+                        requestInterstitial("Next", null);
                         interstitialCallBack(AdvertisementState.INTER_AD_FAILED_TO_SHOW);
                         Log.d("TAG", "The ad failed to show.");
                         if (callbackForAnalytics != null) {
@@ -796,6 +801,8 @@ public class APIManager {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 Log.e(TAG, loadAdError.getMessage());
+                if (interLoadCallBack != null)
+                    interLoadCallBack.onLoad(false);
                 mInterstitialAd = null;
                 showCustom = true;
                 if (callbackForAnalytics != null) {
@@ -841,108 +848,55 @@ public class APIManager {
             window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             if (responseRoot.getAPPSETTINGS().getAppDialogBeforeAdShow().equals("1")) {
-                if (showCustom || mInterstitialAd == null) {
-                    if (sequenceQureka) {
-                        CustomiseinterActivity.H(activity, () -> {
-                            loadInter();
-                            interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
-                        }, Glob.dataset(activity));
-                    } else {
-                        showCustomInter(activity);
+                if (!activity.isFinishing())
+                    dialog.show();
+                new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
                     }
-                }else {
-                    if (!activity.isFinishing())
-                        dialog.show();
-                    new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                        }
 
-                        @Override
-                        public void onFinish() {
-                            if (mInterstitialAd != null) {
-                                mInterstitialAd.show(activity);
-                                if (!activity.isFinishing() && dialog != null && dialog.isShowing())
-                                    dialog.dismiss();
-                            } else {
-                                if (!activity.isFinishing() && dialog != null && dialog.isShowing())
-                                    dialog.dismiss();
+                    @Override
+                    public void onFinish() {
+                        if (showCustom || mInterstitialAd == null) {
+                            if (sequenceQureka) {
                                 CustomiseinterActivity.H(activity, () -> {
                                     loadInter();
                                     interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
                                 }, Glob.dataset(activity));
+                            } else {
+                                showCustomInter(activity);
                             }
+                        } else {
+                            mInterstitialAd.show(activity);
+                            if (!activity.isFinishing() && dialog != null && dialog.isShowing())
+                                dialog.dismiss();
                         }
-                    }.start();
-                }
-            }else {
-                if (showCustom || mInterstitialAd == null) {
-                    if (sequenceQureka) {
-                        CustomiseinterActivity.H(activity, () -> {
-                            loadInter();
-                            interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
-                        }, Glob.dataset(activity));
-                    } else {
-                        showCustomInter(activity);
                     }
-                }else {
-                    dialog.dismiss();
-                    if (mInterstitialAd != null) {
-                        mInterstitialAd.show(activity);
-                        dialog.dismiss();
-                    } else {
-                        CustomiseinterActivity.H(activity, () -> {
-                            loadInter();
-                            interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
-                        }, Glob.dataset(activity));
-                    }
-                }
-            }
-
-            if (showCustom || mInterstitialAd == null) {
-                if (sequenceQureka) {
-                    CustomiseinterActivity.H(activity, () -> {
-                        loadInter();
-                        interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
-                    }, Glob.dataset(activity));
-                } else {
-                    showCustomInter(activity);
-                }
+                }.start();
             } else {
-                if (responseRoot.getAPPSETTINGS().getAppDialogBeforeAdShow().equals("1")) {
-                    if (!activity.isFinishing())
-                        dialog.show();
-                    new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            if (mInterstitialAd != null) {
-                                mInterstitialAd.show(activity);
-                                if (!activity.isFinishing() && dialog != null && dialog.isShowing())
-                                    dialog.dismiss();
-                            } else {
-                                if (!activity.isFinishing() && dialog != null && dialog.isShowing())
-                                    dialog.dismiss();
-                                CustomiseinterActivity.H(activity, () -> {
-                                    loadInter();
-                                    interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
-                                }, Glob.dataset(activity));
-                            }
-                        }
-                    }.start();
+                if (showCustom || mInterstitialAd == null) {
+                    if (sequenceQureka) {
+                        CustomiseinterActivity.H(activity, () -> {
+                            loadInter();
+                            interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
+                        }, Glob.dataset(activity));
+                    } else {
+                        showCustomInter(activity);
+                    }
                 } else {
                     dialog.dismiss();
                     if (mInterstitialAd != null) {
                         mInterstitialAd.show(activity);
                         dialog.dismiss();
                     } else {
-                        CustomiseinterActivity.H(activity, () -> {
-                            loadInter();
-                            interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
-                        }, Glob.dataset(activity));
+                        if (sequenceQureka) {
+                            CustomiseinterActivity.H(activity, () -> {
+                                loadInter();
+                                interstitialCallBack(AdvertisementState.QUREKA_INTER_AD_CLOSE);
+                            }, Glob.dataset(activity));
+                        } else {
+                            showCustomInter(activity);
+                        }
                     }
                 }
             }
@@ -1000,7 +954,7 @@ public class APIManager {
 
     private void loadInter() {
         showCustom = false;
-        requestInterstitial("Next");
+        requestInterstitial("Next", null);
     }
 
     public List<AdvertiseList> getAdvertiseLists() {

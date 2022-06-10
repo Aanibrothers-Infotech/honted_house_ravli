@@ -40,21 +40,15 @@ import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.pesonal.adsdk.model.ResponseRoot;
-import com.pesonal.adsdk.model.vpnmodel.CountryListItem;
-import com.pesonal.adsdk.model.vpnmodel.ResponseVpn;
 import com.pesonal.adsdk.remote.APIManager;
+import com.pesonal.adsdk.remote.InterLoadCallBack;
 import com.pesonal.adsdk.remote.TinyDB;
 import com.pesonal.adsdk.utils.AESSUtils;
 import com.pesonal.adsdk.utils.SplashListner;
 import com.pesonal.adsdk.utils.getDataListner;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -62,7 +56,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.TimeZone;
 
 public class BaseAdsActivity extends BaseActivity {
@@ -78,6 +71,7 @@ public class BaseAdsActivity extends BaseActivity {
     private TextView retry_buttton;
     private getDataListner myCallback1;
     public static boolean SET_RELEASE = false;
+    boolean load=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +207,9 @@ public class BaseAdsActivity extends BaseActivity {
             new APIManager(BaseAdsActivity.this).init(false, new getDataListner() {
                 @Override
                 public void onSuccess() {
-                    APIManager.getInstance(BaseAdsActivity.this).loadInterstitialAd();
+                    APIManager.getInstance(BaseAdsActivity.this).loadInterstitialAd(lo -> {
+                        load=lo;
+                    });
                     APIManager.getInstance(BaseAdsActivity.this).loadRewardAd();
                 }
 
@@ -318,12 +314,19 @@ public class BaseAdsActivity extends BaseActivity {
                         new APIManager(BaseAdsActivity.this).init(true, new getDataListner() {
                             @Override
                             public void onSuccess() {
+                                if (APIManager.isLog)
+                                    Log.e("TAG", "onSuccess:status " + status);
                                 if (status.equals("true")) {
-                                    APIManager.getInstance(BaseAdsActivity.this).loadInterstitialAd();
                                     APIManager.getInstance(BaseAdsActivity.this).loadRewardAd();
-                                    new Handler().postDelayed(myCallback1::onSuccess, 8000);
-                                }else {
-                                    new Handler().postDelayed(myCallback1::onSuccess, 5000);
+                                    APIManager.getInstance(BaseAdsActivity.this).loadInterstitialAd(load -> new Handler().postDelayed(myCallback1::onSuccess, 500));
+                                } else {
+                                    if (APIManager.isLog)
+                                        Log.e("TAG", "onSuccess:load " + load);
+                                    if(load) {
+                                        new Handler().postDelayed(myCallback1::onSuccess, 2000);
+                                    }else {
+                                        new Handler().postDelayed(myCallback1::onSuccess, 5000);
+                                    }
                                 }
                             }
 
@@ -507,7 +510,6 @@ public class BaseAdsActivity extends BaseActivity {
             Log.e("TAG", "getCurrentVersionCode:... " + 0);
         return 0;
     }
-
 
 
     public void downloadPromoAD(String url) {
